@@ -10,13 +10,22 @@ func main() {
 	// args
 	dir := "."
 	if len(os.Args) > 1 {
+		stat, err := os.Stat(os.Args[1])
+		if os.IsNotExist(err) {
+			fmt.Println("failed to stat path, err:", err)
+			return
+		}
+		if !stat.IsDir() {
+			fmt.Printf("path %s not a directory\n", os.Args[1])
+			return
+		}
 		dir = os.Args[1]
 	}
 
 	// read dir
 	files, err := os.ReadDir(dir)
 	if err != nil {
-		_ = fmt.Errorf("failed to read dir, err: %v", err)
+		fmt.Println("failed to read dir, err:", err)
 		return
 	}
 
@@ -31,7 +40,7 @@ func main() {
 
 		info, err := file.Info()
 		if err != nil {
-			_ = fmt.Errorf("failed to get file info, err: %v", err)
+			fmt.Println("failed to get file info, err:", err)
 		} else {
 			fileSizeLen := len(strconv.FormatInt(info.Size(), 10))
 			if fileSizeLen > sizeColLen {
@@ -67,7 +76,7 @@ func main() {
 
 		info, err := file.Info()
 		if err != nil {
-			_ = fmt.Errorf("failed to get file info, err: %v", err)
+			fmt.Println("failed to get file info, err:", err)
 		} else {
 			fileSize := strconv.FormatInt(info.Size(), 10)
 			fileName := file.Name()
