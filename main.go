@@ -47,11 +47,18 @@ func main() {
 		typeCol        = "Type"
 		permissionsCol = "Permissions"
 		sizeCol        = "Size"
+		modTimeCol     = "Mod Time"
 		nameCol        = "Name"
 	)
 	typeColLen := len(typeCol)
 	permissionsColLen := len(permissionsCol)
-	fmt.Printf("%s %*s %*s %-*s\n", typeCol, permissionsColLen, permissionsCol, sizeColLen, sizeCol, nameColLen, nameCol)
+	modTimeFormatString := "Jan 02 2006"
+	modTimeColLen := len(modTimeFormatString)
+	fmt.Printf("%s %*s %*s %*s %-*s\n", typeCol,
+		permissionsColLen, permissionsCol,
+		sizeColLen, sizeCol,
+		modTimeColLen, modTimeCol,
+		nameColLen, nameCol)
 	for _, file := range files {
 		fileType := "-"
 		if file.IsDir() {
@@ -67,7 +74,13 @@ func main() {
 			if file.IsDir() {
 				fileName = fmt.Sprintf("%s/", fileName)
 			}
-			fmt.Printf("%*s %*s %*s %-*s\n", typeColLen, fileType, permissionsColLen, file.Type().Perm(), sizeColLen, fileSize, nameColLen, fileName)
+			modTime := info.ModTime().Format(modTimeFormatString)
+			fmt.Printf("%*s %*s %*s %*s %-*s\n",
+				typeColLen, fileType,
+				permissionsColLen, file.Type().Perm(),
+				sizeColLen, fileSize,
+				modTimeColLen, modTime,
+				nameColLen, fileName)
 		}
 	}
 }
