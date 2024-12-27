@@ -56,12 +56,12 @@ func main() {
 		typeCol        = "Type"
 		permissionsCol = "Permissions"
 		sizeCol        = "Size"
-		modTimeCol     = "Mod Time"
+		modTimeCol     = "Mod Date Time"
 		nameCol        = "Name"
 	)
 	typeColLen := len(typeCol)
 	permissionsColLen := len(permissionsCol)
-	modTimeFormatString := "Jan 02 2006"
+	modTimeFormatString := "Jan 02 2006 15:04"
 	modTimeColLen := len(modTimeFormatString)
 	fmt.Printf("%s %*s %*s %*s %-*s\n", typeCol,
 		permissionsColLen, permissionsCol,
