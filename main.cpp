@@ -49,7 +49,7 @@ static std::string file_time_to_string(const std::filesystem::file_time_type &fi
   oss << std::put_time(&tm, "%Y-%m-%d %H:%M:%S");
   return oss.str();
 }
-
+ 
 static GtkTreeModel* create_and_fill_model()
 {
   GtkListStore* store = gtk_list_store_new(columns.size(),
@@ -59,7 +59,6 @@ static GtkTreeModel* create_and_fill_model()
                                            G_TYPE_STRING,
                                            G_TYPE_STRING);
 
-  /* Append a row and fill in some data */
   GtkTreeIter iter;
 
   std::filesystem::path pathToIterate = ".";
@@ -104,13 +103,8 @@ static GtkWidget* create_view_and_model()
 
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
 
-  /* The tree view has acquired its own reference to the
-   *  model, so we can drop ours. That way the model will
-   *  be freed automatically when the tree view is destroyed
-   */
   g_object_unref(model);
 
-  /* Create a scrolled window and add the tree view to it */
   GtkWidget* scrolled_window = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled_window), view);
 
@@ -119,6 +113,24 @@ static GtkWidget* create_view_and_model()
 
 static void activate(GtkApplication* app, gpointer user_data)
 {
+  // TODO: I have not idea how to initialize the data programatically
+  /*
+  GtkBuilder* builder = gtk_builder_new();
+  GError *error = NULL;
+  if (gtk_builder_add_from_file(builder, "fm.ui", &error) == 0)
+  {
+    g_printerr("Error loading file: %s\n", error->message);
+    g_clear_error(&error);
+    return;
+  }
+  
+  GtkWidget* window = GTK_WIDGET(gtk_builder_get_object(builder, "window"));
+  gtk_window_set_application(GTK_WINDOW(window), app);
+  gtk_widget_show_all(window);
+  g_object_unref(builder);
+  */
+  
+    
   GtkWidget* window = gtk_application_window_new(app);
   gtk_window_set_title(GTK_WINDOW(window), "FileManager");
   gtk_container_set_border_width(GTK_CONTAINER(window), 10);
@@ -136,19 +148,4 @@ int main(int argc, char** argv)
   g_object_unref(app);
 
   return status;
-  
-  /*
-  gtk_init(&argc, &argv);
-
-  GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-  g_signal_connect(window, "destroy", gtk_main_quit, NULL);
-
-  GtkWidget* view = create_view_and_model();
-
-  gtk_container_add(GTK_CONTAINER(window), view);
-
-  gtk_widget_show_all(window);
-
-  gtk_main();
-  */
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Generated with glade 3.40.0 -->
+<interface>
+  <requires lib="gtk+" version="3.24"/>
+  <object class="GtkListStore" id="listStore">
+    <columns>
+      <!-- column-name col_type -->
+      <column type="gchararray"/>
+	  <!-- column-name col_permissions -->
+      <column type="gchararray"/>
+	  <!-- column-name col_size -->
+      <column type="gchararray"/>
+	  <!-- column-name col_time -->
+      <column type="gchararray"/>
+	  <!-- column-name col_name -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkApplicationWindow" id="window">
+    <property name="can-focus">False</property>
+    <property name="title" translatable="yes">FileManager</property>
+    <child>
+      <object class="GtkTreeView" id="treeView">
+        <property name="visible">True</property>
+        <property name="can-focus">True</property>
+        <property name="model">listStore</property>
+        <child internal-child="selection">
+          <object class="GtkTreeSelection"/>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="col_type">
+            <property name="title" translatable="yes">Type</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="col_permissions">
+            <property name="title" translatable="yes">Permissions</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="col_size">
+            <property name="title" translatable="yes">Size</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="col_time">
+            <property name="title" translatable="yes">Time</property>
+          </object>
+        </child>
+        <child>
+          <object class="GtkTreeViewColumn" id="col_name">
+            <property name="title" translatable="yes">Name</property>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>

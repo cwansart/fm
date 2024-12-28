@@ -19,6 +19,7 @@ To compile the project, some preparations are required on Windows:
 pacman -S mingw-w64-ucrt-x86_64-meson \
           mingw-w64-ucrt-x86_64-python \
           mingw-w64-ucrt-x86_64-gtk3 \
+		  mingw-w64-ucrt-x86_64-glade \
           mingw-w64-ucrt-x86_64-toolchain \
           base-devel
 ```
