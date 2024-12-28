@@ -1,4 +1,0 @@
-set PATH=C:\msys64\ucrt64\bin;C:\msys64\msys64\bin;%PATH%
-set CFLAGS=-IC:/msys64/ucrt64/include/gtk-3.0 -IC:/msys64/ucrt64/include/pango-1.0 -IC:/msys64/ucrt64/include/harfbuzz -IC:/msys64/ucrt64/include/cairo -IC:/msys64/ucrt64/include/freetype2 -IC:/msys64/ucrt64/include/pixman-1 -IC:/msys64/ucrt64/include/gdk-pixbuf-2.0 -IC:/msys64/ucrt64/include/libpng16 -IC:/msys64/ucrt64/include/webp -DLIBDEFLATE_DLL -IC:/msys64/ucrt64/include/atk-1.0 -IC:/msys64/ucrt64/include/fribidi -IC:/msys64/ucrt64/include/glib-2.0 -IC:/msys64/ucrt64/lib/glib-2.0/include
-set LIBS=-lgtk-3 -lgdk-3 -lz -lgdi32 -limm32 -lshell32 -lole32 -luuid -lwinmm -ldwmapi -lsetupapi -lcfgmgr32 -lhid -lwinspool -lcomctl32 -lcomdlg32 -lpangowin32-1.0 -lpangocairo-1.0 -lpango-1.0 -lharfbuzz -latk-1.0 -lcairo-gobject -lcairo -lgdk_pixbuf-2.0 -lgio-2.0 -lgobject-2.0 -lglib-2.0 -lintl -mwindows
-g++ %CFLAGS% -o fm main.cpp %LIBS%
