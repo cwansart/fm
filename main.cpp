@@ -4,7 +4,7 @@
 #include <array>
 
 struct ColDef {
-  uint32_t id;
+  uint32_t    id;
   const char* title;
 };
 
@@ -84,11 +84,9 @@ static GtkTreeModel* create_and_fill_model()
   return GTK_TREE_MODEL(store);
 }
 
-static GtkWidget* create_view_and_model(void)
+static GtkWidget* create_view_and_model()
 {
   GtkWidget *view = gtk_tree_view_new();
-
-  ;
 
   for (const auto& column: columns)
   {
@@ -119,8 +117,27 @@ static GtkWidget* create_view_and_model(void)
   return scrolled_window;
 }
 
+static void activate(GtkApplication* app, gpointer user_data)
+{
+  GtkWidget* window = gtk_application_window_new(app);
+  gtk_window_set_title(GTK_WINDOW(window), "FileManager");
+  gtk_container_set_border_width(GTK_CONTAINER(window), 10);
+  
+  GtkWidget* view = create_view_and_model();
+  gtk_container_add(GTK_CONTAINER(window), view);
+  gtk_widget_show_all(window);
+}
+
 int main(int argc, char** argv)
 {
+  GtkApplication* app = gtk_application_new("de.cwansart.fm", G_APPLICATION_DEFAULT_FLAGS);
+  g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
+  int status = g_application_run(G_APPLICATION(app), argc, argv);
+  g_object_unref(app);
+
+  return status;
+  
+  /*
   gtk_init(&argc, &argv);
 
   GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -133,4 +150,5 @@ int main(int argc, char** argv)
   gtk_widget_show_all(window);
 
   gtk_main();
+  */
 }
