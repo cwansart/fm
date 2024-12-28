@@ -17,28 +17,25 @@ const std::array<ColDef, colSize> columns{{
   { 4, "Name" },
 }};
 
-std::string perms_to_str(std::filesystem::perms p)
+static std::string perms_to_str(std::filesystem::perms p)
 {
   std::string result;
-
-  result += (p & std::filesystem::perms::owner_read) != std::filesystem::perms::none ? 'r' : '-';
-  result += (p & std::filesystem::perms::owner_write) != std::filesystem::perms::none ? 'w' : '-';
-  result += (p & std::filesystem::perms::owner_exec) != std::filesystem::perms::none ? 'x' : '-';
-  result += (p & std::filesystem::perms::group_read) != std::filesystem::perms::none ? 'r' : '-';
-  result += (p & std::filesystem::perms::group_write) != std::filesystem::perms::none ? 'w' : '-';
-  result += (p & std::filesystem::perms::group_exec) != std::filesystem::perms::none ? 'x' : '-';
-  result += (p & std::filesystem::perms::others_read) != std::filesystem::perms::none ? 'r' : '-';
+  result += (p & std::filesystem::perms::owner_read)   != std::filesystem::perms::none ? 'r' : '-';
+  result += (p & std::filesystem::perms::owner_write)  != std::filesystem::perms::none ? 'w' : '-';
+  result += (p & std::filesystem::perms::owner_exec)   != std::filesystem::perms::none ? 'x' : '-';
+  result += (p & std::filesystem::perms::group_read)   != std::filesystem::perms::none ? 'r' : '-';
+  result += (p & std::filesystem::perms::group_write)  != std::filesystem::perms::none ? 'w' : '-';
+  result += (p & std::filesystem::perms::group_exec)   != std::filesystem::perms::none ? 'x' : '-';
+  result += (p & std::filesystem::perms::others_read)  != std::filesystem::perms::none ? 'r' : '-';
   result += (p & std::filesystem::perms::others_write) != std::filesystem::perms::none ? 'w' : '-';
-  result += (p & std::filesystem::perms::others_exec) != std::filesystem::perms::none ? 'x' : '-';
-
+  result += (p & std::filesystem::perms::others_exec)  != std::filesystem::perms::none ? 'x' : '-';
   return result;
 }
 
-std::string file_time_to_string(const std::filesystem::file_time_type &file_time)
+static std::string file_time_to_string(const std::filesystem::file_time_type &file_time)
 {
   // Convert file_time_type to system_clock::time_point
-  auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
-      file_time - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now());
+  auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>{file_time - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now()};
 
   // Convert to time_t for easier manipulation
   std::time_t tt = std::chrono::system_clock::to_time_t(sctp);
@@ -52,8 +49,7 @@ std::string file_time_to_string(const std::filesystem::file_time_type &file_time
   return oss.str();
 }
 
-static GtkTreeModel *
-create_and_fill_model(void)
+static GtkTreeModel* create_and_fill_model()
 {
   GtkListStore *store = gtk_list_store_new(columns.size(),
                                            G_TYPE_STRING,
@@ -67,7 +63,7 @@ create_and_fill_model(void)
 
   std::filesystem::path pathToIterate = ".";
 
-  for (const auto &entry : std::filesystem::directory_iterator(pathToIterate))
+  for (const auto& entry: std::filesystem::directory_iterator(pathToIterate))
   {
     std::string type{entry.is_directory() ? "D" : "-"};
     std::string size{entry.is_directory() ? "" : std::to_string(entry.file_size())};
@@ -87,14 +83,14 @@ create_and_fill_model(void)
   return GTK_TREE_MODEL(store);
 }
 
-static GtkWidget *
-create_view_and_model(void)
+static GtkWidget* create_view_and_model(void)
 {
   GtkWidget *view = gtk_tree_view_new();
 
   GtkCellRenderer *renderer;
 
-  for (const auto& column: columns) {
+  for (const auto& column: columns)
+  {
     renderer = gtk_cell_renderer_text_new();
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
                                                 -1,
@@ -136,6 +132,4 @@ int main(int argc, char **argv)
   gtk_widget_show_all(window);
 
   gtk_main();
-
-  return 0;
 }
