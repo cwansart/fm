@@ -26,8 +26,8 @@ pacman -S mingw-w64-ucrt-x86_64-meson \
 Open the MSYS2 UCRT64 terminal, change into the fm folder and run:
 
 ```bash
-/ucrt64/bin/meson setup build
-/ucrt64/bin/meson compile -vC build
+meson setup build
+meson compile -vC build
 ```
 
 ## Links
