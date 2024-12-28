@@ -8,23 +8,14 @@ struct ColDef {
   const char* title;
 };
 
-const std::array<ColDef, 5> columns{{
+constexpr uint32_t colSize = 5;
+const std::array<ColDef, colSize> columns{{
   { 0, "Type" },
   { 1, "Permissions" },
   { 2, "Size" },
   { 3, "Time" },
   { 4, "Name" },
 }};
-
-enum
-{
-  COL_TYPE = 0,
-  COL_PERM,
-  COL_SIZE,
-  COL_TIME,
-  COL_NAME,
-  NUM_COLS
-};
 
 std::string perms_to_str(std::filesystem::perms p)
 {
