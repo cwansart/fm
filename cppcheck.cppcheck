@@ -16,6 +16,7 @@
     </libraries>
     <suppressions>
         <suppression>missingIncludeSystem</suppression>
+        <suppression>cstyleCast</suppression>
     </suppressions>
     <project-name>cppcheck</project-name>
 </project>

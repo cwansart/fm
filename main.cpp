@@ -35,7 +35,8 @@ static std::string perms_to_str(std::filesystem::perms p)
 static std::string file_time_to_string(const std::filesystem::file_time_type &file_time)
 {
   // Convert file_time_type to system_clock::time_point
-  auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>{file_time - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now()};
+  auto sctp = std::chrono::time_point_cast<std::chrono::system_clock::duration>(
+      file_time - std::filesystem::file_time_type::clock::now() + std::chrono::system_clock::now());
 
   // Convert to time_t for easier manipulation
   std::time_t tt = std::chrono::system_clock::to_time_t(sctp);
@@ -51,7 +52,7 @@ static std::string file_time_to_string(const std::filesystem::file_time_type &fi
 
 static GtkTreeModel* create_and_fill_model()
 {
-  GtkListStore *store = gtk_list_store_new(columns.size(),
+  GtkListStore* store = gtk_list_store_new(columns.size(),
                                            G_TYPE_STRING,
                                            G_TYPE_STRING,
                                            G_TYPE_STRING,
@@ -87,11 +88,11 @@ static GtkWidget* create_view_and_model(void)
 {
   GtkWidget *view = gtk_tree_view_new();
 
-  GtkCellRenderer *renderer;
+  ;
 
   for (const auto& column: columns)
   {
-    renderer = gtk_cell_renderer_text_new();
+    GtkCellRenderer* renderer = gtk_cell_renderer_text_new();
     gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
                                                 -1,
                                                 column.title,
@@ -101,7 +102,7 @@ static GtkWidget* create_view_and_model(void)
                                                 NULL);
   }
 
-  GtkTreeModel *model = create_and_fill_model();
+  GtkTreeModel* model = create_and_fill_model();
 
   gtk_tree_view_set_model(GTK_TREE_VIEW(view), model);
 
@@ -112,20 +113,20 @@ static GtkWidget* create_view_and_model(void)
   g_object_unref(model);
 
   /* Create a scrolled window and add the tree view to it */
-  GtkWidget *scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  GtkWidget* scrolled_window = gtk_scrolled_window_new(NULL, NULL);
   gtk_container_add(GTK_CONTAINER(scrolled_window), view);
 
   return scrolled_window;
 }
 
-int main(int argc, char **argv)
+int main(int argc, char** argv)
 {
   gtk_init(&argc, &argv);
 
-  GtkWidget *window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+  GtkWidget* window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
   g_signal_connect(window, "destroy", gtk_main_quit, NULL);
 
-  GtkWidget *view = create_view_and_model();
+  GtkWidget* view = create_view_and_model();
 
   gtk_container_add(GTK_CONTAINER(window), view);
 
