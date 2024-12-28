@@ -144,7 +144,11 @@ create_view_and_model(void)
    */
   g_object_unref(model);
 
-  return view;
+  /* Create a scrolled window and add the tree view to it */
+  GtkWidget *scrolled_window = gtk_scrolled_window_new(NULL, NULL);
+  gtk_container_add(GTK_CONTAINER(scrolled_window), view);
+
+  return scrolled_window;
 }
 
 int main(int argc, char **argv)
