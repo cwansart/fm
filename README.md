@@ -94,3 +94,5 @@ Resources used for installation and development:
 - https://docs.gtk.org/gtk3/treeview-tutorial.html
 - https://mesonbuild.com/Tutorial.html
 - https://mesonbuild.com/Builtin-options.html
+- https://github.com/GNOME/gimp/blob/master/meson.build
+- https://github.com/msys2/setup-msys2
