@@ -14,23 +14,20 @@ To compile the project some preparations are required on Windows:
 Install MSYS2 x64, start MSYS2 UCRT64 console, run:
 
 ```bash
-pacman -S mingw-w64-ucrt-x86_64-gtk3 mingw-w64-ucrt-x86_64-toolchain base-devel
+pacman -S mingw-w64-ucrt-x86_64-meson \
+          mingw-w64-ucrt-x86_64-python \
+          mingw-w64-ucrt-x86_64-gtk3 \
+          mingw-w64-ucrt-x86_64-toolchain \
+          base-devel
 ```
 
 ## Compile and run
 
-Run inside the fm source folder on Windows:
+Open the MSYS2 UCRT64 terminal, change into the fm folder and run:
 
 ```bash
-build.bat
-fm.exe
-```
-
-Run inside the fm source folder on Linux:
-
-```bash
-sh build.sh
-./fm.exe
+/ucrt64/bin/meson setup build
+/ucrt64/bin/meson compile -vC build
 ```
 
 ## Links

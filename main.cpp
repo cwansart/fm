@@ -1,7 +1,6 @@
 #include <gtk/gtk.h>
 #include <iostream>
 #include <filesystem>
-#include <format>
 
 enum
 {
