@@ -1,6 +1,20 @@
 #include <gtk/gtk.h>
 #include <iostream>
 #include <filesystem>
+#include <array>
+
+struct ColDef {
+  uint32_t id;
+  const char* title;
+};
+
+const std::array<ColDef, 5> columns{{
+  { 0, "Type" },
+  { 1, "Permissions" },
+  { 2, "Size" },
+  { 3, "Time" },
+  { 4, "Name" },
+}};
 
 enum
 {
@@ -50,7 +64,7 @@ std::string file_time_to_string(const std::filesystem::file_time_type &file_time
 static GtkTreeModel *
 create_and_fill_model(void)
 {
-  GtkListStore *store = gtk_list_store_new(NUM_COLS,
+  GtkListStore *store = gtk_list_store_new(columns.size(),
                                            G_TYPE_STRING,
                                            G_TYPE_STRING,
                                            G_TYPE_STRING,
@@ -71,11 +85,11 @@ create_and_fill_model(void)
     std::string time{file_time_to_string(entry.last_write_time())};
     gtk_list_store_append(store, &iter);
     gtk_list_store_set(store, &iter,
-                       COL_TYPE, type.c_str(),
-                       COL_PERM, perm.c_str(),
-                       COL_SIZE, size.c_str(),
-                       COL_TIME, time.c_str(),
-                       COL_NAME, filePath.c_str(),
+                       columns[0].id, type.c_str(),
+                       columns[1].id, perm.c_str(),
+                       columns[2].id, size.c_str(),
+                       columns[3].id, time.c_str(),
+                       columns[4].id, filePath.c_str(),
                        -1);
   }
 
@@ -89,50 +103,16 @@ create_view_and_model(void)
 
   GtkCellRenderer *renderer;
 
-  /* --- Column #1 --- */
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-                                              -1,
-                                              "Type",
-                                              renderer,
-                                              "text", COL_TYPE,
-                                              NULL);
-
-  /* --- Column #2 --- */
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-                                              -1,
-                                              "Permissions",
-                                              renderer,
-                                              "text", COL_PERM,
-                                              NULL);
-
-  /* --- Column #3 --- */
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-                                              -1,
-                                              "Size",
-                                              renderer,
-                                              "text", COL_SIZE,
-                                              NULL);
-
-  /* --- Column #4 --- */
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-                                              -1,
-                                              "Modification Time",
-                                              renderer,
-                                              "text", COL_TIME,
-                                              NULL);
-
-  /* --- Column #4 --- */
-  renderer = gtk_cell_renderer_text_new();
-  gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
-                                              -1,
-                                              "Name",
-                                              renderer,
-                                              "text", COL_NAME,
-                                              NULL);
+  for (const auto& column: columns) {
+    renderer = gtk_cell_renderer_text_new();
+    gtk_tree_view_insert_column_with_attributes(GTK_TREE_VIEW(view),
+                                                -1,
+                                                column.title,
+                                                renderer,
+                                                "text",
+                                                column.id,
+                                                NULL);
+  }
 
   GtkTreeModel *model = create_and_fill_model();
 
